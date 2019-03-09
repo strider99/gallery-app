@@ -1,40 +1,79 @@
 
 import React, { Component } from 'react';
+import Clock from 'react-live-clock';
+import Axios from 'axios';
 class Gallery extends Component {
+
+  state = {
+    images: []
+  }
+
+  componentDidMount() {
+    this.getAllImages();
+  }
+  getAllImages = () => {
+    // store the api url in a variable
+    let url = 'http://localhost:7000/gallery';
+
+    Axios.get(url)
+      .then(res => {
+        this.setState({
+          images: res
+        })
+      })
+  }
+
+  fileSubmitHandler = e => {
+
+  }
+
+  selectFileHandler = e => {
+
+  }
+
   render() {
     return (
       <div>
-  <div class="alert alert-success" role="alert">
-  Welcome to Gallery App
-</div>
+        <div className="alert alert-success" role="alert">
+        Welcome to Gallery App
+        </div>
+          <h2>
+            Time
+          </h2>
+        <h3>
+          <Clock
+            format={'h:mm:ssa'}
+            ticking={true}
+           />
 
-  <button type="upload" className="btn btn-primary">Upload></button>
+        </h3>
+        <form action="" encType="multipart/form-data" onSubmit={this.fileSubmitHandler}  >
+          <div>
+            <input type="file" name="general" id="general" onChange={this.selectFileHandler} />
+            <br />
+          </div>
+          <button className="btn btn-primary" type="submit" >Submit File</button>
+          {/* <div> {Math.round(this.state.loaded,2) } %</div> */}
+        </form>
+
+        <div>
+          <hr />
+          {/* map all the images here */}
+          {
+            this.state.images.length ? this.state.images.map(image => {
+              return (
+                <div>
+                  <img src={image} alt=""/>
+                </div>
+              )
+            }) : "No images found"
+          }
+        </div>
 
 
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWUPmV612kd57STWFH2qtAb-_CVzHtzH9h4Mm5V6iTVns2mejv" />
+
     </div>
-
-    <div class="col-sm">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYMbujuXacB5aEV_TbUVS_DOdYEWgWE10RmfFF9O5uYMGqODzbmw" />
-    </div>
-
-    <div class="col-sm">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiUoYtLMRR384z5-dVrjO9JDSKSP2zMfVDjIOV2Om5ox7rEOtj" alt="cat" class="cat" />
-    </div>
-
-    <div class="col-sm">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiUoYtLMRR384z5-dVrjO9JDSKSP2zMfVDjIOV2Om5ox7rEOtj" alt="cat" class="cat" />
-    </div>
-
-
-
-  </div>
-</div>
-</div>
 
     );
   }
